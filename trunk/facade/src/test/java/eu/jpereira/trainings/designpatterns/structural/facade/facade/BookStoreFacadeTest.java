@@ -1,18 +1,3 @@
-/**
- * Copyright 2011 Joao Miguel Pereira
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
 package eu.jpereira.trainings.designpatterns.structural.facade.facade;
 
 import static org.mockito.Mockito.*;
@@ -20,15 +5,12 @@ import static org.mockito.Mockito.*;
 import org.junit.Test;
 
 import eu.jpereira.trainings.designpatterns.structural.facade.BookstoreFacade;
+import eu.jpereira.trainings.designpatterns.structural.facade.DefaultBookstoreFacade;
 import eu.jpereira.trainings.designpatterns.structural.facade.model.Book;
 import eu.jpereira.trainings.designpatterns.structural.facade.model.Customer;
 import eu.jpereira.trainings.designpatterns.structural.facade.model.DispatchReceipt;
 import eu.jpereira.trainings.designpatterns.structural.facade.model.Order;
 
-/**
- * @author windows
- * 
- */
 public class BookStoreFacadeTest extends AbstractClientTest {
 
 	@Test
@@ -41,7 +23,7 @@ public class BookStoreFacadeTest extends AbstractClientTest {
 		Order dummyOrder = new Order();
 		DispatchReceipt dummyDispatchReceipt = new DispatchReceipt();
 
-		// prepate SUT
+		// prepare SUT
 		BookstoreFacade facade = createFacade();
 
 		// Prepare stubs
@@ -56,21 +38,15 @@ public class BookStoreFacadeTest extends AbstractClientTest {
 		// Verify behavior
 		verify(warehouseService).dispatch(dummyOrder);
 		verify(customerNotificationService).notifyClient(dummyDispatchReceipt);
-
 	}
 
-	/**
-	 * @return
-	 */
 	protected BookstoreFacade createFacade() {
-		// TODO: Implement the interface bookstoreFacade and set the
-		// dependencies. We're using mocks, so you'll have to set the mocks as
-		// dependencies of the facade
-		// Example:
-		// impl.setCustomerService(customerService)
-		// impl.setWarehouseService(wharehouseService)
-		// ...
-		// Return an instance of your facade implementation
-		return null;
+		DefaultBookstoreFacade impl = new DefaultBookstoreFacade();
+		impl.setCustomerService(customerService);
+		impl.setBookService(bookService);
+		impl.setOrderingService(orderingService);
+		impl.setWarehouseService(warehouseService);
+		impl.setCustomerNotificationService(customerNotificationService);
+		return impl;
 	}
 }
